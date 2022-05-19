@@ -3,30 +3,61 @@ window.onload = () => {
   const input = document.querySelector('.search-input');
   const button = document.querySelector('.search-button');
   button.addEventListener('click', async function() {
-    const value = input.value.toLowerCase();
-    const data = await getData('s', value);
-    const movies = data.Search;
-    let string = '';
-    movies.forEach(movie => string += cards(movie));
-    const movieContainer = document.querySelector('.movie-container');
-    movieContainer.innerHTML = string;
+    try {
+      const value = input.value.toLowerCase();
+      const data = await getDataAndDetailMovies('s', value);
+      updateMovies(data);
+    } catch(err) {
+      sweetalert(err);
+    }
   });
   
-  function getData(parameter,value) {
-    return fetch(`https://omdbapi.com/?apikey=feefac6f&${parameter}=${value}`)
-    .then(response => response.json())
-    .then(response => response);
+  function updateMovies(data) {
+    console.log(data)
+    let string = '';
+    data.forEach(movie => string += cards(movie));
+    const movieContainer = document.querySelector('.movie-container');
+    movieContainer.innerHTML = string;
+  }
+  
+  function getDataAndDetailMovies(parameter, value) {
+    return fetch(`http://omdbapi.com/?apikey=feefac6f&${parameter}=${value}`)
+      .then(response => {
+        if (!response.ok) throw new Error(responss.statusText);
+        return response.json();
+      })
+      .then(response => {
+        if (response.Response == "False") throw new Error(response.Error);
+        return (parameter == 's') ? response.Search : response;
+      });
   }
   
   // event binding
   window.addEventListener('click', async function(event) {
     if (event.target.classList.contains('button-detail')) {
-      const imdbId = event.target.dataset.id;
-      const movie = await getData('i', imdbId);
-      const modalContainer = document.querySelector('.modal-container');
-      modalContainer.innerHTML = modalDetail(movie);
+      try {
+        const imdbId = event.target.dataset.id;
+        const movie = await getDataAndDetailMovies('i', imdbId);
+        updateModalDetail(movie);
+      } catch (err) {
+        sweetalert(err);
+      }
     }
   });
+  
+  function updateModalDetail(movie) {
+    const modalContainer = document.querySelector('.modal-container');
+    modalContainer.innerHTML = modalDetail(movie);
+  }
+  
+  function sweetalert(text) {
+    swal.fire ({
+      icon: 'error',
+      title: 'Error!',
+      text: text,
+      position: 'center'
+    });
+  }
   
   function cards({imdbID,Poster,Title,Type,Year}) {
     return `
