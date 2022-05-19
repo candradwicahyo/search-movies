@@ -10,6 +10,7 @@ program ini berguna untuk mencari sebuah film dan melihat detail film tersebut. 
 
 ### lainnya
 
+* [bootstrap](https://getbootstrap.com)
 * [open API](https://omdbapi.com)
 * handphone
 * code editor (Acode)
