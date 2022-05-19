@@ -20,7 +20,7 @@ window.onload = () => {
   }
   
   function getDataAndDetailMovies(parameter, value) {
-    return fetch(`http://omdbapi.com/?apikey=feefac6f&${parameter}=${value}`)
+    return fetch(`https://omdbapi.com/?apikey=feefac6f&${parameter}=${value}`)
       .then(response => {
         if (!response.ok) throw new Error(responss.statusText);
         return response.json();
