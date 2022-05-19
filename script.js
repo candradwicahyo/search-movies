@@ -22,7 +22,7 @@ window.onload = () => {
   function getDataAndDetailMovies(parameter, value) {
     return fetch(`https://omdbapi.com/?apikey=feefac6f&${parameter}=${value}`)
       .then(response => {
-        if (!response.ok) throw new Error(responss.statusText);
+        if (!response.ok) throw new Error(response.statusText);
         return response.json();
       })
       .then(response => {
