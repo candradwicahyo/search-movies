@@ -13,7 +13,7 @@ window.onload = () => {
   });
   
   function getData(parameter,value) {
-    return fetch(`http://omdbapi.com/?apikey=feefac6f&${parameter}=${value}`)
+    return fetch(`https://omdbapi.com/?apikey=feefac6f&${parameter}=${value}`)
     .then(response => response.json())
     .then(response => response);
   }
