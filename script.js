@@ -13,7 +13,6 @@ window.onload = () => {
   });
   
   function updateMovies(data) {
-    console.log(data)
     let string = '';
     data.forEach(movie => string += cards(movie));
     const movieContainer = document.querySelector('.movie-container');
